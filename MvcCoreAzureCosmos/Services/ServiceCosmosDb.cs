@@ -57,6 +57,23 @@ namespace MvcCoreAzureCosmos.Services
             return coches;
         }
 
-       
+        public async Task UpdateCocheAsync(Coche car)
+        {
+            //VOY A UTIIZAR UN METODO LLAMADO UPDERT
+            //DICHO METODO, SI ENCUENTRA EL COCHE LO MODIFICA Y SI NO LO ENCUENTRA, LO INSERTA
+            await this.containerCosmos.UpsertItemAsync<Coche>(car, new PartitionKey(car.Id));
+        }
+
+        public async Task DeleteCocheAsync(string id)
+        {
+            await this.containerCosmos.DeleteItemAsync<Coche>(id, new PartitionKey(id));
+        }
+
+        //METODO PARA BUSCAR UN COCHE POR SU ID
+        public async Task<Coche> FindCocheAsync(string id)
+        {
+            ItemResponse<Coche> response = await this.containerCosmos.ReadItemAsync<Coche>(id, new PartitionKey(id));
+            return response.Resource;
+        }
     }
 }

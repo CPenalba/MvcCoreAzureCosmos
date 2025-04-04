@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MvcCoreAzureCosmos.Models.Coche>
+
+@{
+	ViewData["Title"] = "MisCoches";
+}
+
+<h1 style="color:blue">Mis Coches de Cosmos</h1>
+
+<p>
+	<a asp-action="Create" class="btn btn-info">Create New</a>
+</p>
+@if(Model != null)
+{
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Id)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Marca)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Modelo)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Imagen)
+				</th>
+				<th>Editar</th>
+				<th>Detalles</th>
+				<th>Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Marca)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Modelo)
+					</td>
+					<td>
+						<img src="@item.Imagen" style="width:150px; height:150px;" />
+					</td>
+					<td>
+						<a asp-controller="Coches" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">Editar</a>
+					</td>
+					<td>
+						<a asp-controller="Coches" asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning">Detalles</a>
+					</td>
+					<td>
+						<a asp-controller="Coches" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
