@@ -75,5 +75,21 @@ namespace MvcCoreAzureCosmos.Services
             ItemResponse<Coche> response = await this.containerCosmos.ReadItemAsync<Coche>(id, new PartitionKey(id));
             return response.Resource;
         }
+
+        public async Task<List<Coche>> GetCochesMarcaAsync(string marca)
+        {
+            string sql = "select * from c where c.Marca='" + marca + "'";
+
+            //PARA APLICAR LOS FILTROS SE UTILIZA UNA CLASE LLAMADA QUERYDEFINITION
+            QueryDefinition definition = new QueryDefinition(sql);
+            var query = this.containerCosmos.GetItemQueryIterator<Coche>(definition);
+            List<Coche> coches = new List<Coche>();
+            while (query.HasMoreResults)
+            {
+                var results = await query.ReadNextAsync();
+                coches.AddRange(results);
+            }
+            return coches;
+        }
     }
 }
